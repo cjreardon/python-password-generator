@@ -1,41 +1,50 @@
 import random
+import tkinter as tk
+from tkinter import messagebox
 
 
-lower_case = list('abcdefghijklmnopqrstuvwxyz')
-upper_case = list('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
-nums = list('0123456789')
-syms = list('!@#$%^&*()_-+=<>?~')
-password = ""
-options = []
+def show_password(password):
+    messagebox.showinfo("Your password", password)
 
-password_len = input("How many characters would you like your password to be? ")
-while int(password_len) <= 0:
-    password_len = input("Error! Password length must be larger than 0. Try again ")
 
-lower_case_choice = input("Would you like to include lower case letters? (Y/N) ")
-while lower_case_choice not in ["Y","N"]:
-    lower_case_choice = input("Error! Please enter 'Y' or 'N' for a choice ")
-if lower_case_choice == "Y":
-    options += lower_case
+def generate_password(pass_len, lchoice, upchoice, numschoice, symschoice):
+    lower_case = list('abcdefghijklmnopqrstuvwxyz')
+    upper_case = list('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
+    nums = list('0123456789')
+    syms = list('!@#$%^&*()_-+=<>?~')
+    options = []
+    if lchoice == 1:
+        options += lower_case
+    if upchoice == 1:
+        options += upper_case
+    if numschoice == 1:
+        options += nums
+    if symschoice == 1:
+        options += syms
+    password = ""
+    random_list = random.choices(options, k=pass_len)
+    password = ''.join(map(str, random_list))
+    show_password(password)
 
-upper_case_choice = input("Would you like to include upper case letters? (Y/N) ")
-while upper_case_choice not in ["Y","N"]:
-    upper_case_choice = input("Error! Please enter 'Y' or 'N' for a choice ")
-if upper_case_choice == "Y":
-    options += upper_case
-
-nums_choice = input("Would you like to include numbers? (Y/N) ")
-while nums_choice not in ["Y","N"]:
-    nums_choice = input("Error! Please enter 'Y' or 'N' for a choice ")
-if nums_choice == "Y":
-    options += nums
-
-syms_choice = input("Would you like to include symbols? (Y/N) ")
-while syms_choice not in ["Y","N"]:
-    syms_choice = input("Error! Please enter 'Y' or 'N' for a choice ")
-if syms_choice == "Y":
-    options += syms
-
-random_list = random.choices(options, k=int(password_len))
-password = ''.join(map(str, random_list))
-print(password)
+root = tk.Tk()
+CheckVar1 = tk.IntVar()
+CheckVar2 = tk.IntVar()
+CheckVar3 = tk.IntVar()
+CheckVar4 = tk.IntVar()
+CheckVar5 = tk.IntVar()
+w1 = tk.Label(root, text="Password Length: ", bg="black", fg="white")
+w1.grid(row=0, column=0, sticky='nsew')
+w2 = tk.Entry(root, textvariable=CheckVar5)
+w2.grid(row=0, column=1)
+w3 = tk.Checkbutton(root, text="Include lower-case", bg="black", fg="white", variable=CheckVar1)
+w3.grid(row=1, column=0, columnspan=2, sticky='nsew')
+w4 = tk.Checkbutton(root, text="Include upper-case", bg="black", fg="white", variable=CheckVar2)
+w4.grid(row=2, column=0, columnspan=2, sticky='nsew')
+w5 = tk.Checkbutton(root, text="Include numbers", bg="black", fg="white", variable=CheckVar3)
+w5.grid(row=3, column=0, columnspan=2, sticky='nsew')
+w6 = tk.Checkbutton(root, text="Include symbols", bg="black", fg="white", variable=CheckVar4)
+w6.grid(row=4, column=0, columnspan=2, sticky='nsew')
+#This button is weird, need lambda because passing a callback. Macs don't like background colors so it has to be a highlight
+w7 = tk.Button(root, text="Generate Password", highlightbackground="red", command = lambda: generate_password(int(CheckVar5.get()), int(CheckVar1.get()), int(CheckVar2.get()), int(CheckVar3.get()), int(CheckVar4.get())))
+w7.grid(row=5, column=0, columnspan=2, sticky='nsew')
+tk.mainloop()
