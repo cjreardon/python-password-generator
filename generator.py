@@ -6,6 +6,19 @@ from tkinter import messagebox
 def show_password(password):
     messagebox.showinfo("Your password", password)
 
+
+def too_long():
+    messagebox.showinfo("Your password is too long", "Enter a password length of less than 20 characters")
+        
+
+def too_short():
+    messagebox.showinfo("Your password is too short or negative", "Enter a password length greater than 0 characters")
+
+
+def choose_a_box():
+    messagebox.showinfo("You need to choose at least one checkbox", "Please select at least one category of characters and try again")
+
+
 #leg work of generating the password
 def generate_password(pass_len, lchoice, upchoice, numschoice, symschoice):
     #character banks
@@ -14,6 +27,18 @@ def generate_password(pass_len, lchoice, upchoice, numschoice, symschoice):
     nums = list('0123456789')
     syms = list('!@#$%^&*()_-+=<>?~')
     options = []
+    #if password length longer than 20 characters or 0 or less, return
+    if pass_len <= 0:
+        too_short()
+        return
+    if pass_len > 20:
+        too_long()
+        return
+
+    #if no check boxes are checked, return
+    if lchoice == 0 and upchoice == 0 and numschoice == 0 and symschoice == 0:
+        choose_a_box()
+        return
     #if the checkbox is checked, add the desired list to the overall bank
     if lchoice == 1:
         options += lower_case
@@ -36,7 +61,7 @@ CheckVar2 = tk.IntVar()
 CheckVar3 = tk.IntVar()
 CheckVar4 = tk.IntVar()
 CheckVar5 = tk.IntVar()
-w1 = tk.Label(root, text="Password Length: ", bg="black", fg="white", relief=tk.RIDGE) 
+w1 = tk.Label(root, text="Password Length: (20 characters or less)", bg="black", fg="white", relief=tk.RIDGE) 
 w1.grid(row=0, column=0, sticky='nsew') #sticky fills the GUI box
 w2 = tk.Entry(root, textvariable=CheckVar5)
 w2.grid(row=0, column=1)
