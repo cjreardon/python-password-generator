@@ -1,2 +1,2 @@
 # python-password-generator
-simple password generator
+This script provides a GUI to generate a random password with your choice of letters, numbers, and symbols. I used Tkinter for the GUI. You can choose between upper case, lower case, numbers, and symbols to be in your password. You also select the password length (up to 20 characters). I used the built in python "random" library to choose from a bank of characters based on the user's preferences.
